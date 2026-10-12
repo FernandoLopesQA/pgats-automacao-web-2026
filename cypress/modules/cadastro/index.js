@@ -44,21 +44,27 @@ export function verificarMensagemDeCadastroExistente() {
 }
 
 export function deletarCadastro() {
-  cy.get('a[href*="/delete_account"]').click()
-  cy.xpath('//h2[@data-qa="account-deleted"]').should('be.visible').and('contain.text', 'Account Deleted!')
-  cy.get('[data-qa="continue-button"]').click()
+  cy.intercept('GET', '**/delete_account').as('excluirConta')
+
+  cy.get('header a[href="/delete_account"]').click()
+
+  cy.wait('@excluirConta')
+  cy.location('pathname').should('eq', '/delete_account')
+
+  cy.get('[data-qa="account-deleted"]').should('be.visible').and('contain.text', 'Account Deleted!')
+
+  cy.get('a[data-qa="continue-button"][href="/"]').should('be.visible').click()
+
   cy.location('pathname').should('eq', '/')
   cy.get('#slider').should('be.visible')
 }
 
 export function validarFormularioDeNovoUsuario() {
-  cy.xpath('//h2[contains(.,"New User Signup!")]')
-    .should('be.visible')
+  cy.xpath('//h2[contains(.,"New User Signup!")]').should('be.visible')
 }
 
 export function validarInformacoesDaConta(nome, email) {
-  cy.xpath('//h2[normalize-space(.)="Enter Account Information"]')
-    .should('be.visible')
+  cy.xpath('//h2[normalize-space(.)="Enter Account Information"]').should('be.visible')
 
   cy.get('[data-qa="name"]').should('have.value', nome)
   cy.get('[data-qa="email"]').should('have.value', email)
@@ -66,4 +72,30 @@ export function validarInformacoesDaConta(nome, email) {
 
 export function continuarAposCadastro() {
   cy.get('[data-qa="continue-button"]').click()
+}
+
+export function preencherCadastroComUsuario(usuario) {
+  cy.get('#id_gender2').check().should('be.checked')
+
+  cy.get('[data-qa="password"]').type(usuario.senha, { log: false })
+
+  cy.get('[data-qa="days"]').select('1')
+  cy.get('[data-qa="months"]').select('1')
+  cy.get('[data-qa="years"]').select('1990')
+
+  cy.get('#newsletter').check().should('be.checked')
+  cy.get('[name="optin"]').check().should('be.checked')
+
+  cy.get('[data-qa="first_name"]').type(usuario.primeiroNome)
+  cy.get('[data-qa="last_name"]').type(usuario.sobrenome)
+  cy.get('[data-qa="company"]').type(usuario.empresa)
+  cy.get('[data-qa="address"]').type(usuario.endereco)
+  cy.get('[data-qa="address2"]').type(usuario.complemento)
+  cy.get('[data-qa="country"]').select(usuario.pais)
+  cy.get('[data-qa="state"]').type(usuario.estado)
+  cy.get('[data-qa="city"]').type(usuario.cidade)
+  cy.get('[data-qa="zipcode"]').type(usuario.cep)
+  cy.get('[data-qa="mobile_number"]').type(usuario.telefone)
+
+  cy.get('[data-qa="create-account"]').click()
 }

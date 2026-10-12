@@ -50,3 +50,20 @@ export function deletarCadastro() {
   cy.location('pathname').should('eq', '/')
   cy.get('#slider').should('be.visible')
 }
+
+export function validarFormularioDeNovoUsuario() {
+  cy.xpath('//h2[contains(.,"New User Signup!")]')
+    .should('be.visible')
+}
+
+export function validarInformacoesDaConta(nome, email) {
+  cy.xpath('//h2[normalize-space(.)="Enter Account Information"]')
+    .should('be.visible')
+
+  cy.get('[data-qa="name"]').should('have.value', nome)
+  cy.get('[data-qa="email"]').should('have.value', email)
+}
+
+export function continuarAposCadastro() {
+  cy.get('[data-qa="continue-button"]').click()
+}

@@ -14,3 +14,12 @@ export function efetuarLogout() {
   cy.contains('h2', 'Login to your account').should('be.visible')
   cy.contains('a', 'Logged in as').should('not.exist')
 }
+
+export function validarFormularioDeLogin() {
+  cy.contains('h2', 'Login to your account').should('be.visible')
+}
+
+export function validarMensagemDeLoginInvalido() {
+  cy.contains('p', 'Your email or password is incorrect!')
+    .should('be.visible')
+}

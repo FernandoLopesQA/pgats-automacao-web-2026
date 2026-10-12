@@ -1,19 +1,20 @@
+import { acessarTelaDeLogin } from '../modules/home'
 import {
   iniciarCadastro,
   preencherEEnviarCadastro,
   validarCadastroComSucesso,
   verificarMensagemDeCadastroExistente,
   deletarCadastro,
+  validarFormularioDeNovoUsuario,
+  validarInformacoesDaConta,
+  continuarAposCadastro,
 } from '../modules/cadastro'
-import { efetuarLogin, validarUsuarioLogado, efetuarLogout } from '../modules/login'
+import { efetuarLogin, validarUsuarioLogado, efetuarLogout, validarFormularioDeLogin, validarMensagemDeLoginInvalido } from '../modules/login'
 import { faker } from '@faker-js/faker'
 
 describe('Cadastro e autenticação de usuários', () => {
   beforeEach(() => {
-    cy.visit('/')
-    cy.location('pathname').should('eq', '/')
-    cy.get('#slider').should('be.visible')
-    cy.get('a[href="/login"]').click()
+    acessarTelaDeLogin()
   })
 
   const usuarioExistente = {
@@ -23,7 +24,7 @@ describe('Cadastro e autenticação de usuários', () => {
   }
 
   it('TC01 - deve cadastrar um usuário, confirmar o login e excluir a conta', () => {
-    cy.xpath('//h2[contains(.,"New User Signup!")]').should('be.visible')
+    validarFormularioDeNovoUsuario()
 
     const nome = faker.person.firstName()
     const email = `pgats.${faker.string.uuid()}@example.com`
@@ -31,15 +32,12 @@ describe('Cadastro e autenticação de usuários', () => {
 
     iniciarCadastro(nome, email)
 
-    cy.xpath('//h2[normalize-space(.)="Enter Account Information"]').should('be.visible')
-
-    cy.get('[data-qa="name"]').should('have.value', nome)
-    cy.get('[data-qa="email"]').should('have.value', email)
+    validarInformacoesDaConta(nome, email)
 
     preencherEEnviarCadastro(senha)
 
     validarCadastroComSucesso()
-    cy.get('[data-qa="continue-button"]').click()
+    continuarAposCadastro()
 
     validarUsuarioLogado(nome)
 
@@ -48,31 +46,26 @@ describe('Cadastro e autenticação de usuários', () => {
 
   it('TC02 - deve logar usuário com e-mail e senha corretos', () => {
     // Pré-condição: a conta deve existir antes da execução.
-
-    cy.contains('h2', 'Login to your account').should('be.visible')
+    validarFormularioDeLogin()
 
     efetuarLogin(usuarioExistente.email, usuarioExistente.senha)
 
-    // Confirma a mensagem de login e o nome esperado da conta.
     validarUsuarioLogado(usuarioExistente.nome)
-
-    // cy.get('a[href="/delete_account"]').click()
-    // cy.get('[data-qa="account-deleted"]').should('be.visible').and('contain.text', 'Account Deleted!')
   })
 
   it('TC03 - deve exibir erro ao tentar fazer login com e-mail e senha incorretos', () => {
     const email = `invalido.${faker.string.uuid()}@example.com`
     const senha = faker.internet.password({ length: 12 })
 
-    cy.contains('h2', 'Login to your account').should('be.visible')
+    validarFormularioDeLogin()
 
     efetuarLogin(email, senha)
 
-    cy.contains('p', 'Your email or password is incorrect!').should('be.visible')
+    validarMensagemDeLoginInvalido()
   })
 
   it('TC04 - deve fazer login e retornar à página de login após o logout', () => {
-    cy.contains('h2', 'Login to your account').should('be.visible')
+    validarFormularioDeLogin()
 
     efetuarLogin(usuarioExistente.email, usuarioExistente.senha)
 
@@ -82,7 +75,7 @@ describe('Cadastro e autenticação de usuários', () => {
   })
 
   it('TC05 - deve exibir erro ao tentar cadastrar um usuário com e-mail já registrado', () => {
-    cy.contains('h2', 'New User Signup!').should('be.visible')
+    validarFormularioDeNovoUsuario()
 
     iniciarCadastro(usuarioExistente.nome, usuarioExistente.email)
 

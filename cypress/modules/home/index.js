@@ -5,8 +5,6 @@ export function acessarPaginaInicial() {
 }
 
 export function acessarTelaDeLogin() {
-  cy.visit('/')
-  cy.location('pathname').should('eq', '/')
-  cy.get('#slider').should('be.visible')
+  acessarPaginaInicial()
   cy.get('a[href="/login"]').click()
 }

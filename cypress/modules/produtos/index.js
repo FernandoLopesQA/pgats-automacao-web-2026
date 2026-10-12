@@ -44,7 +44,7 @@ export function pesquisarProduto(termo) {
   cy.get('#submit_search').click()
 }
 
-export function validarResultadosDaPesquisa(nomeEsperado) {
+export function validarResultadoUnicoDaPesquisa(nomeEsperado) {
   cy.contains('h2', 'Searched Products').should('be.visible')
 
   cy.get('.features_items .product-image-wrapper').should('have.length', 1).and('be.visible')

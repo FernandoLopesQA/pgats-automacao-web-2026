@@ -6,7 +6,7 @@ import {
   abrirPrimeiroProduto,
   validarDetalhesDoProduto,
   pesquisarProduto,
-  validarResultadosDaPesquisa,
+  validarResultadoUnicoDaPesquisa,
 } from '../modules/produtos'
 import { blueTop } from '../fixtures/produtos.json'
 
@@ -37,6 +37,6 @@ describe('Catálogo e pesquisa de produtos', () => {
 
     pesquisarProduto(nomeProduto)
 
-    validarResultadosDaPesquisa(nomeProduto)
+    validarResultadoUnicoDaPesquisa(nomeProduto)
   })
 })

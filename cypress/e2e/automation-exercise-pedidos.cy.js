@@ -21,6 +21,7 @@ import {
 } from '../modules/carrinho'
 import { validarEnderecosDoCheckout, validarResumoDoPedido, preencherComentarioDoPedido, prosseguirParaPagamento } from '../modules/checkout'
 import { preencherDadosDePagamento, confirmarPagamento, validarPedidoComSucesso } from '../modules/pagamento'
+import { blueTop } from '../fixtures/produtos.json'
 
 describe('Realização de pedidos', () => {
   it('TC15 - deve cadastrar um usuário antes do checkout e concluir o pedido', () => {
@@ -29,9 +30,7 @@ describe('Realização de pedidos', () => {
     const comentario = faker.lorem.sentence()
 
     const produto = {
-      id: 1,
-      nome: 'Blue Top',
-      preco: 500,
+      ...blueTop,
       quantidade: 1,
     }
 
@@ -92,9 +91,7 @@ describe('Realização de pedidos', () => {
       const comentario = faker.lorem.sentence()
 
       const produto = {
-        id: 1,
-        nome: 'Blue Top',
-        preco: 500,
+        ...blueTop,
         quantidade: 1,
       }
 

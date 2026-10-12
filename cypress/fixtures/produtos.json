@@ -1,0 +1,11 @@
+{
+  "blueTop": {
+    "id": 1,
+    "nome": "Blue Top",
+    "categoria": "Women > Tops",
+    "preco": 500,
+    "disponibilidade": "In Stock",
+    "condicao": "New",
+    "marca": "Polo"
+  }
+}

@@ -29,7 +29,7 @@ export function validarDetalhesDoProduto(produto) {
 
       cy.contains('p', `Category: ${produto.categoria}`).should('be.visible')
 
-      cy.contains('span', produto.preco).should('be.visible')
+      cy.contains('span', `Rs. ${produto.preco}`).should('be.visible')
 
       cy.contains('p', 'Availability:').should('be.visible').and('contain.text', produto.disponibilidade)
 

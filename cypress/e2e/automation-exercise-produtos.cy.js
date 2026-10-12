@@ -8,6 +8,7 @@ import {
   pesquisarProduto,
   validarResultadosDaPesquisa,
 } from '../modules/produtos'
+import { blueTop } from '../fixtures/produtos.json'
 
 describe('Catálogo e pesquisa de produtos', () => {
   beforeEach(() => {
@@ -15,15 +16,7 @@ describe('Catálogo e pesquisa de produtos', () => {
   })
 
   it('TC08 - deve exibir todos os produtos e os detalhes do primeiro produto', () => {
-    const produto = {
-      id: 1,
-      nome: 'Blue Top',
-      categoria: 'Women > Tops',
-      preco: 'Rs. 500',
-      disponibilidade: 'In Stock',
-      condicao: 'New',
-      marca: 'Polo',
-    }
+    const produto = blueTop
 
     acessarProdutos()
 
@@ -36,7 +29,7 @@ describe('Catálogo e pesquisa de produtos', () => {
   })
 
   it('TC09 - deve pesquisar um produto e exibir resultados relacionados', () => {
-    const nomeProduto = 'Blue Top'
+    const nomeProduto = blueTop.nome
 
     acessarProdutos()
 

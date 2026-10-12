@@ -1,7 +1,7 @@
 import { acessarTelaDeLogin } from '../modules/home'
 import {
   iniciarCadastro,
-  preencherEEnviarCadastro,
+  preencherCadastroComUsuario,
   validarCadastroComSucesso,
   verificarMensagemDeCadastroExistente,
   deletarCadastro,
@@ -11,6 +11,7 @@ import {
 } from '../modules/cadastro'
 import { efetuarLogin, validarUsuarioLogado, efetuarLogout, validarFormularioDeLogin, validarMensagemDeLoginInvalido } from '../modules/login'
 import { faker } from '@faker-js/faker'
+import { criarUsuario } from '../factories/usuario'
 
 describe('Cadastro e autenticação de usuários', () => {
   beforeEach(() => {
@@ -24,22 +25,20 @@ describe('Cadastro e autenticação de usuários', () => {
   }
 
   it('TC01 - deve cadastrar um usuário, confirmar o login e excluir a conta', () => {
+    const usuario = criarUsuario()
+
     validarFormularioDeNovoUsuario()
 
-    const nome = faker.person.firstName()
-    const email = `pgats.${faker.string.uuid()}@example.com`
-    const senha = faker.internet.password({ length: 12 })
+    iniciarCadastro(usuario.nome, usuario.email)
 
-    iniciarCadastro(nome, email)
+    validarInformacoesDaConta(usuario.nome, usuario.email)
 
-    validarInformacoesDaConta(nome, email)
-
-    preencherEEnviarCadastro(senha)
+    preencherCadastroComUsuario(usuario)
 
     validarCadastroComSucesso()
     continuarAposCadastro()
 
-    validarUsuarioLogado(nome)
+    validarUsuarioLogado(usuario.nome)
 
     deletarCadastro()
   })

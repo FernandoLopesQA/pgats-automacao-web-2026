@@ -4,35 +4,6 @@ export function iniciarCadastro(nome, email) {
   cy.get('[data-qa="signup-button"]').click()
 }
 
-export function preencherEEnviarCadastro(senha) {
-  // Radio buttons -> check
-  cy.get('#id_gender2').check().should('be.checked')
-
-  cy.get('[data-qa="password"]').type(senha, { log: false })
-
-  // Selects e comboboxes -> select
-  cy.get('[data-qa="days"]').select('1')
-  cy.get('[data-qa="months"]').select('1')
-  cy.get('[data-qa="years"]').select('1990')
-
-  // Checkboxes -> check
-  cy.get('#newsletter').check().should('be.checked')
-  cy.get('[name="optin"]').check().should('be.checked')
-
-  cy.get('[data-qa="first_name"]').type('PGATS')
-  cy.get('[data-qa="last_name"]').type('Aut')
-  cy.get('[data-qa="company"]').type('PGATS')
-  cy.get('[data-qa="address"]').type('OAK Street')
-  cy.get('[data-qa="address2"]').type('The end of')
-  cy.get('[data-qa="country"]').select('United States')
-  cy.get('[data-qa="state"]').type('California')
-  cy.get('[data-qa="city"]').type('San Francisco')
-  cy.get('[data-qa="zipcode"]').type('12345')
-  cy.get('[data-qa="mobile_number"]').type('51987654321')
-
-  cy.get('[data-qa="create-account"]').click()
-}
-
 export function validarCadastroComSucesso() {
   cy.contains('h2', 'Account Created!').should('be.visible')
   cy.contains('p', 'Congratulations! Your new account has been successfully created!').should('be.visible')

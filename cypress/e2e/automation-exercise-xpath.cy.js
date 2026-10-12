@@ -1,5 +1,22 @@
 import { faker } from '@faker-js/faker'
 
+// Sobre os aspectos observados:
+//
+// - Legibilidade: achei os seletores XPath mais extensos e menos fáceis de
+// identificar rapidamente, especialmente nas expressões mais complexas.
+//
+// - Velocidade de execução: nas execuções que comparei, a versão com XPath,
+// sem modularização, terminou entre 5 e 6 segundos antes da versão modularizada.
+// Essa diferença, por si só, não permite concluir que XPath seja mais rápido,
+// pois fatores como carregamento da página e rede podem influenciar o tempo.
+//
+// - Minhas percepções: considero importante conhecer XPath, principalmente
+// para localizar elementos pelo texto ou pela relação com outros elementos.
+// Prefiro seletores simples e atributos estáveis quando estão disponíveis.
+// A fragilidade depende de como o seletor é construído: caminhos absolutos
+// e seletores dependentes da posição dos elementos tendem a quebrar com
+// mudanças na página. Usaria XPath quando trouxesse uma vantagem clara.
+
 describe('Cadastro e autenticação de usuários', () => {
   beforeEach(() => {
     cy.visit('/')

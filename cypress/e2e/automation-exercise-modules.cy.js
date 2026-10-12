@@ -6,6 +6,7 @@ import {
   deletarCadastro,
 } from '../modules/cadastro'
 import { efetuarLogin, validarUsuarioLogado, efetuarLogout } from '../modules/login'
+import { faker } from '@faker-js/faker'
 
 describe('Cadastro e autenticação de usuários', () => {
   beforeEach(() => {
@@ -24,21 +25,23 @@ describe('Cadastro e autenticação de usuários', () => {
   it('TC01 - deve cadastrar um usuário, confirmar o login e excluir a conta', () => {
     cy.xpath('//h2[contains(.,"New User Signup!")]').should('be.visible')
 
-    const email = `pgats.${Date.now()}@example.com`
+    const nome = faker.person.firstName()
+    const email = `pgats.${faker.string.uuid()}@example.com`
+    const senha = faker.internet.password({ length: 12 })
 
-    iniciarCadastro('PGATS Aut', email)
+    iniciarCadastro(nome, email)
 
     cy.xpath('//h2[normalize-space(.)="Enter Account Information"]').should('be.visible')
 
-    cy.get('[data-qa="name"]').should('have.value', 'PGATS Aut')
+    cy.get('[data-qa="name"]').should('have.value', nome)
     cy.get('[data-qa="email"]').should('have.value', email)
 
-    preencherEEnviarCadastro('12345')
+    preencherEEnviarCadastro(senha)
 
     validarCadastroComSucesso()
     cy.get('[data-qa="continue-button"]').click()
 
-    validarUsuarioLogado('PGATS Aut')
+    validarUsuarioLogado(nome)
 
     deletarCadastro()
   })
@@ -58,8 +61,8 @@ describe('Cadastro e autenticação de usuários', () => {
   })
 
   it('TC03 - deve exibir erro ao tentar fazer login com e-mail e senha incorretos', () => {
-    const email = `invalido.${Date.now()}@example.com`
-    const senha = 'senha-incorreta'
+    const email = `invalido.${faker.string.uuid()}@example.com`
+    const senha = faker.internet.password({ length: 12 })
 
     cy.contains('h2', 'Login to your account').should('be.visible')
 

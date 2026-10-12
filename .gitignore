@@ -1,0 +1,15 @@
+node_modules/
+.DS_Store
+
+# Configurações locais e variáveis de ambiente
+.env
+.env.*
+!.env.example
+cypress.env.json
+
+# Resultados de execução
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+coverage/
+*.log

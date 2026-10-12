@@ -1,0 +1,19 @@
+{
+  "name": "pgats-automacao-web-2026",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run --browser chrome --spec \"cypress/e2e/**/*.cy.js\"",
+    "cy:open": "cypress open --e2e --browser chrome",
+    "cy:run": "cypress run --browser chrome"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "cypress": "16.1.0",
+    "cypress-xpath": "^2.0.1"
+  }
+}

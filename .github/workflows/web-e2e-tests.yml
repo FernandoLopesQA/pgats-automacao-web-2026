@@ -21,11 +21,14 @@ jobs:
       - name: Executando os testes
         run: npx cypress run
 
-      - uses: actions/upload-artifact@v4
+      - name: Disponibilizar relatório e evidências
+        uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: relatorios
+          name: relatorio-mochawesome
           path: |
             cypress/reports
             cypress/screenshots
             cypress/videos
+          if-no-files-found: error
+          retention-days: 30

@@ -12,20 +12,21 @@ import {
 import { efetuarLogin, validarUsuarioLogado, efetuarLogout, validarFormularioDeLogin, validarMensagemDeLoginInvalido } from '../modules/login'
 import { faker } from '@faker-js/faker'
 import { criarUsuario } from '../factories/usuario'
+import { cadastrarUsuarioPorApi, removerUsuarioPorApi } from '../modules/usuarios-api'
 
 describe('Cadastro e autenticação de usuários', () => {
+  let usuario
+
   beforeEach(() => {
-    acessarTelaDeLogin()
+    usuario = criarUsuario()
   })
 
-  const usuarioExistente = {
-    nome: 'Teste CT02',
-    email: 'testct02@uorak.com',
-    senha: '123456',
-  }
+  afterEach(() => {
+    removerUsuarioPorApi(usuario)
+  })
 
   it('TC01 - deve cadastrar um usuário, confirmar o login e excluir a conta', () => {
-    const usuario = criarUsuario()
+    acessarTelaDeLogin()
 
     validarFormularioDeNovoUsuario()
 
@@ -44,17 +45,22 @@ describe('Cadastro e autenticação de usuários', () => {
   })
 
   it('TC02 - deve logar usuário com e-mail e senha corretos', () => {
-    // Pré-condição: a conta deve existir antes da execução.
+    cadastrarUsuarioPorApi(usuario)
+
+    acessarTelaDeLogin()
     validarFormularioDeLogin()
 
-    efetuarLogin(usuarioExistente.email, usuarioExistente.senha)
+    efetuarLogin(usuario.email, usuario.senha)
+    validarUsuarioLogado(usuario.nome)
 
-    validarUsuarioLogado(usuarioExistente.nome)
+    deletarCadastro()
   })
 
   it('TC03 - deve exibir erro ao tentar fazer login com e-mail e senha incorretos', () => {
     const email = `invalido.${faker.string.uuid()}@example.com`
     const senha = faker.internet.password({ length: 12 })
+
+    acessarTelaDeLogin()
 
     validarFormularioDeLogin()
 
@@ -64,20 +70,24 @@ describe('Cadastro e autenticação de usuários', () => {
   })
 
   it('TC04 - deve fazer login e retornar à página de login após o logout', () => {
+    cadastrarUsuarioPorApi(usuario)
+
+    acessarTelaDeLogin()
     validarFormularioDeLogin()
 
-    efetuarLogin(usuarioExistente.email, usuarioExistente.senha)
-
-    validarUsuarioLogado(usuarioExistente.nome)
+    efetuarLogin(usuario.email, usuario.senha)
+    validarUsuarioLogado(usuario.nome)
 
     efetuarLogout()
   })
 
   it('TC05 - deve exibir erro ao tentar cadastrar um usuário com e-mail já registrado', () => {
+    cadastrarUsuarioPorApi(usuario)
+
+    acessarTelaDeLogin()
     validarFormularioDeNovoUsuario()
 
-    iniciarCadastro(usuarioExistente.nome, usuarioExistente.email)
-
+    iniciarCadastro(usuario.nome, usuario.email)
     verificarMensagemDeCadastroExistente()
   })
 })

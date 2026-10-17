@@ -129,13 +129,19 @@ O workflow **Web E2E Tests** é acionado manualmente:
 3. Clique em **Run workflow**, escolha a branch e confirme.
 4. Aguarde o término e abra o resumo da execução.
 
-O workflow instala as dependências com `npm install` e executa `npx cypress run`. Como esse comando não especifica navegador, utiliza o Electron padrão do Cypress; os scripts npm locais especificam Chrome.
+O workflow configura Node.js 24, instala as dependências com `npm ci`, respeitando o `package-lock.json`, e executa `npx cypress run`. Como esse comando não especifica navegador, utiliza o Electron padrão do Cypress; os scripts npm locais especificam Chrome.
 
 A action `dorny/test-reporter` lê os XMLs JUnit e apresenta totais, suítes e detalhes dos testes no resumo do Actions, além da verificação **Testes E2E**.
 
 O artefato **relatorio-mochawesome** fica disponível na seção **Artifacts** por **30 dias**. Baixe o ZIP, extraia o conteúdo e localize o `index.html` para visualizar o relatório completo.
 
 As etapas de resumo e upload também são executadas quando os testes falham, desde que a execução não tenha sido cancelada. A disponibilização depende de os arquivos terem sido gerados. Não há publicação pelo GitHub Pages.
+
+## Credenciais do BrowserStack
+
+O arquivo `browserstack.json` preserva a configuração do exercício de BrowserStack, sem credenciais. Para autenticar execuções nesse serviço, configure as variáveis de ambiente `BROWSERSTACK_USERNAME` e `BROWSERSTACK_ACCESS_KEY`, conforme a [documentação de autenticação](https://www.browserstack.com/docs/automate/cypress/authentication).
+
+Não grave a chave no arquivo versionado. O workflow **Web E2E Tests** não utiliza BrowserStack e não precisa dessas variáveis. A configuração do exercício de BrowserStack é independente da execução local e do CI descritos acima.
 
 ## Entrega do trabalho
 

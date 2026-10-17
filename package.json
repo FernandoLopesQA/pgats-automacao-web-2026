@@ -14,6 +14,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@faker-js/faker": "^10.6.0",
+    "browserstack-cypress-cli": "^1.37.1",
     "cypress": "16.1.0",
     "cypress-mochawesome-reporter": "^5.0.0",
     "cypress-xpath": "^2.0.1"

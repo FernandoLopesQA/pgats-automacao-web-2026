@@ -7,15 +7,23 @@ module.exports = defineConfig({
   blockHosts: ['*.googlesyndication.com', '*.doubleclick.net'],
   // Mantém apenas o último teste no histórico de snapshots do modo interativo.
   numTestsKeptInMemory: 1,
-  reporter: 'cypress-mochawesome-reporter',
+  reporter: 'cypress-multi-reporters',
   reporterOptions: {
-    reportDir: 'cypress/reports',
-    reportFilename: 'index',
-    reportPageTitle: 'PGATS - Automação Web',
-    charts: true,
-    embeddedScreenshots: true,
-    inlineAssets: true,
-    saveJson: true,
+    reporterEnabled: 'cypress-mochawesome-reporter, mocha-junit-reporter',
+
+    cypressMochawesomeReporterReporterOptions: {
+      reportDir: 'cypress/reports',
+      reportFilename: 'index',
+      reportPageTitle: 'PGATS - Automação Web',
+      charts: true,
+      embeddedScreenshots: true,
+      inlineAssets: true,
+      saveJson: true,
+    },
+
+    mochaJunitReporterReporterOptions: {
+      mochaFile: 'cypress/reports/junit/results-[hash].xml',
+    },
   },
   e2e: {
     baseUrl: 'https://automationexercise.com/',

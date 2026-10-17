@@ -17,6 +17,8 @@
     "browserstack-cypress-cli": "^1.37.1",
     "cypress": "16.1.0",
     "cypress-mochawesome-reporter": "^5.0.0",
-    "cypress-xpath": "^2.0.1"
+    "cypress-multi-reporters": "^2.0.5",
+    "cypress-xpath": "^2.0.1",
+    "mocha-junit-reporter": "^2.2.1"
   }
 }

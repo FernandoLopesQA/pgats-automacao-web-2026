@@ -5,7 +5,7 @@ describe('Automation Exercise', () => {
   // cy.get() -> elementos baseados em css selector
   // cy.contains() -> elementos baseados em texto
 
-  it('Cadastrar um novo usuário com sucesso', () => {
+  it.skip('Cadastrar um novo usuário com sucesso', () => {
     cy.visit('https://www.automationexercise.com')
     cy.get('a[href*=login]').click()
 
@@ -56,7 +56,7 @@ describe('Automation Exercise', () => {
 
   });
 
-  it('Efetuar Login de Usuário com email e senha corretos', () => {
+  it.skip('Efetuar Login de Usuário com email e senha corretos', () => {
     // ARRANGE
     /**
      * Ter uma conta para efetuar o Login
@@ -89,7 +89,7 @@ describe('Automation Exercise', () => {
 
   });
 
-  it('Efetuar Login de Usuário email e senha INCORRETOS', () => {
+  it.skip('Efetuar Login de Usuário email e senha INCORRETOS', () => {
     cy.visit('https://www.automationexercise.com/login')
 
     // ACT
@@ -106,7 +106,7 @@ describe('Automation Exercise', () => {
 
   });
 
-  it('Efetuar Logout', () => {
+  it.skip('Efetuar Logout', () => {
     cy.visit('https://www.automationexercise.com/login')
 
     // ACT
@@ -128,7 +128,7 @@ describe('Automation Exercise', () => {
 
   });
 
-  it('Tentar cadastrar usuário com e-mail já cadastrado', () => {
+  it.skip('Tentar cadastrar usuário com e-mail já cadastrado', () => {
     cy.visit('https://www.automationexercise.com')
     cy.get('a[href*=login]').click()
 

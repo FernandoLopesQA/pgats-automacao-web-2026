@@ -13,3 +13,4 @@ cypress/videos/
 cypress/downloads/
 coverage/
 *.log
+reports/
